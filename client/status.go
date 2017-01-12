@@ -1,41 +1,35 @@
 package main
 
 import (
-    "fmt"
-	"os"
+	"encoding/json"
+	"fmt"
+	"github.com/jawher/mow.cli"
 	"io/ioutil"
-    "github.com/jawher/mow.cli"
 	"net/http"
+	"os"
 )
 
 func main() {
-    st := cli.App("st", "get server's status")
+	st := cli.App("st", "get server's status")
 
-   
-	
-	
 	st.Command("status", "get status from 127.0.0.1:8000/status", func(cmd *cli.Cmd) {
-		
+
 		cmd.Action = func() {
-			
+
 			res, err := http.Get("http://127.0.0.1:8000/status")
 			if err != nil {
-				fmt.Println(err.Error())
+				status_fail, _ := json.Marshal([]string{"server", "not running"})
+				fmt.Println(string(status_fail))
+			} else {
+				stat, err := ioutil.ReadAll(res.Body)
+				if err != nil {
+					fmt.Println(err.Error())
+				}
+				fmt.Println(string(stat))
 			}
-			defer res.Body.Close()
 
-			stat, err := ioutil.ReadAll(res.Body)
-			if err != nil {
-				fmt.Println(err.Error())
-			}
-
-			fmt.Printf("%s", stat)
 		}
 	})
 	st.Run(os.Args)
-				
-				
+
 }
-
-
-	
