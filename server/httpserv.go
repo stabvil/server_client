@@ -11,14 +11,14 @@ import (
 func status(w http.ResponseWriter, r *http.Request) {
 
 	
-	slcB, _ := json.Marshal([]string{"server","ok"})
+	slcB, _ := json.Marshal([]string{"server","running"})
 	w.Write([]byte(slcB))
 }
 
 
 
 
-func main() {
+func httpserver() {
 	
 	r := mux.NewRouter()
 	r.HandleFunc("/status", status)
