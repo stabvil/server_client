@@ -11,5 +11,5 @@ RUN go get github.com/GoRethink/gorethink
 
 
 RUN go build -o /bin/serv
-EXPOSE 8000 8000
+EXPOSE 8000
 CMD ["serv", "run"]
